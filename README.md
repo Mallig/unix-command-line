@@ -105,3 +105,8 @@ You'll be coming across a lot of text files while traversing the directory tree.
 There are a load more commands along with lots of options to use with the `less` program, but I'm bored of writing about it so let's move on.
 
 If you've been doing some exploring of your own you may have found something called a "Symbolic Link", you can discern this from the access rights column (`ls -l`) because the first charachter will be an `l`, for example `lrwxrwxrwx`. These are used to reference a file in another location and can be very useful. Let's not dwell on it, you're about to recieve your next set of powers.
+
+## God created Man, Man created Files
+
+Moving and Seeing isn't enough for you eh? You want to get your hands dirty? really feel those files between your fingers? It's time to learnt he powers of creation and destruction, also known as `mkdir` and `rmdir`. Try not to chop down the whole tree!
+
