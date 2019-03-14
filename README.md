@@ -106,7 +106,7 @@ There are a load more commands along with lots of options to use with the `less`
 
 If you've been doing some exploring of your own you may have found something called a "Symbolic Link", you can discern this from the access rights column (`ls -l`) because the first charachter will be an `l`, for example `lrwxrwxrwx`. These are used to reference a file in another location and can be very useful. Let's not dwell on it, you're about to recieve your next set of powers.
 
-## God created Man, Man created Files
+## God created Man, Man created File Systems
 
 Moving and Seeing isn't enough for you eh? You want to get your hands dirty? really feel those files between your fingers? It's time to learn the powers of creation and destruction, also known as `mkdir` and `rmdir`. Try not to chop down the whole tree!
 
@@ -139,6 +139,39 @@ Create a directory witht he `mkdir` command. `mkdir $DIRECTORY` will create a di
 
 You can also make multiple directories at the same time `mkdir dir1 dir2`. You can specify different paths for each directory, just remember to seperate them by a space or you will probably get an error.
 
-### Stop Copying Me
+### Stop `cp`ing Me
 
 Copy a file from one location to another with `cp`. You can give the copy a new name in the process. `cp file1.html dir1/file1renamed.html` will copy it to dir1 in the working directory and rename it. Copy multiple files at once by naming them each separated by a space.
+
+Here are some handy options to help you out when copying files 
+
+| Option | Meaning |
+|--------|---------|
+| -a     | Copy files and directories and all attributes (ownerships and permissions) |
+| -i     | Prompt user before overwriting existing files|
+| -r     | Recursively copy directories and contents (this or -a is required when copying directories)|
+| -u     | Only files that don't exist or are newer in destination |
+| -v     | Display info as copy occurs |
+
+### `mv`ing Swiftly On
+
+Now that you never need to copy and paste a file again, let's learn how to never need to drag and drop files. The `mv` command works very similarly to the `cp` command, except the original file is deleted. Knowing that, there isn't much more to say about it.
+
+### The Power to Ha`rm`
+
+You're about to learn how to delete things. This stuff doesn't get put in the recycle bin, once it's gone it's gone so be careful. This is especially the case when it comes to wildcards. With the command `rm *.html` you can delete all the html files in the working directory, all it takes is a space to delete all the files in your working directory `rm * .html`. If you're worried you may be deleting unexpected files, use the `ls` command first to see what you are removing.
+
+Have another table of handy options
+
+| Option | Meaning |
+|--------|---------|
+| -i     | Promt user before deleting file |
+| -r     | Recursively delete directories (required to delete directories)|
+| -f     | Do not prompt, ovverrides -i |
+| -v     | Display info while deleting |
+
+Like `cp` and `mv`, you can specify multiple files to delete at once with `rm`.
+
+### Links (i can't think of a good title)
+
+
