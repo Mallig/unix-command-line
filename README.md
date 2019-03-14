@@ -132,3 +132,13 @@ Character classes include
 | [:upper:] | Any upper case letter |
 
 With these in your arsenal you can construct some sophisticated searches. You know that `*` means any characters, so `g*` must mean g followed by any characters. `[gh]*` would mean any file starting with g or h. Try coming up with some combinations of your own. Wildcards can also be used in the GUI, so even if you don't like using the command line, you've learned something useful.
+
+### Make it so
+
+Create a directory witht he `mkdir` command. `mkdir $DIRECTORY` will create a directory on the path you specify, a simple `mkdir new-dir` will create on in your working directory. You can specify a path with your directory name at the end to create it in another location, `mkdir ../new-dir` will create it in the parent of the working directory, `mkdir ~/Documents/new-dir` will create it in your Documents (remember relative and absolute paths from earlier?)
+
+You can also make multiple directories at the same time `mkdir dir1 dir2`. You can specify different paths for each directory, just remember to seperate them by a space or you will probably get an error.
+
+### Stop Copying Me
+
+Copy a file from one location to another with `cp`. You can give the copy a new name in the process. `cp file1.html dir1/file1renamed.html` will copy it to dir1 in the working directory and rename it. Copy multiple files at once by naming them each separated by a space.
