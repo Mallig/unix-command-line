@@ -108,5 +108,27 @@ If you've been doing some exploring of your own you may have found something cal
 
 ## God created Man, Man created Files
 
-Moving and Seeing isn't enough for you eh? You want to get your hands dirty? really feel those files between your fingers? It's time to learnt he powers of creation and destruction, also known as `mkdir` and `rmdir`. Try not to chop down the whole tree!
+Moving and Seeing isn't enough for you eh? You want to get your hands dirty? really feel those files between your fingers? It's time to learn the powers of creation and destruction, also known as `mkdir` and `rmdir`. Try not to chop down the whole tree!
 
+Some of the commands you are going to learn here are actually easier to execute using the GUI, but what the command line offers is flexibility. For example, moving a file from one place to another is a simple drag and drop operation when using the GUI but what about moving all files of a certain type, or just files which don't already exist in the new location? Well you could scroll through each directory selecting all files ending `.html` or you could just type `cp *.html $DESTINATION` and have it done in a flash.
+
+What's with the asterix? you may be asking. It's what we in the biz call a _wildcard_, a special character used to select files based on patterns in their name. The asterix used in the last command denotes any characters, so `*.html` would match `hello_world.html` and `goodbye_world.html` but not `hello_again.js`. Here is a table of wildcards.
+
+| Wildcard | Matches |
+|----------|---------|
+| *        | Any characters|
+| ?        | Any single character|
+| [_characters_]| Any character in set _characters_|
+|[[:_class_:]]| Any character matching _class_ |
+
+Character classes include 
+
+| Class | Matches |
+|-------|---------|
+| [:alnum:] | Any alphanumeric character |
+| [:alpha:] | Any alphabetic charcter |
+| [:digit:] | Any numeral |
+| [:lower:] | Any lowercase letter |
+| [:upper:] | Any upper case letter |
+
+With these in your arsenal you can construct some sophisticated searches. You know that `*` means any characters, so `g*` must mean g followed by any characters. `[gh]*` would mean any file starting with g or h. Try coming up with some combinations of your own. Wildcards can also be used in the GUI, so even if you don't like using the command line, you've learned something useful.
