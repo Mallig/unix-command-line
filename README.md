@@ -174,4 +174,10 @@ Like `cp` and `mv`, you can specify multiple files to delete at once with `rm`.
 
 ### Links (i can't think of a good title)
 
+One last thing and then we're going to setup a little playground to try out your newfound powers. We touched on links earlier but I didn't mention that there are actually two types _Hard_ and _Symbolic_. 
 
+Hard links cannot reference a file outside its own file system nor can it reference a directory. They are indistinguishable from the file itself and directory lists will give no special indication of its presence. When a hard link is deleted the contents of the file will remain until all links to the file are deleted. Symbolic links are newer and preferred.
+
+Symbolic links don't have the limitations of hard links, they work by creating a file with a text pointer to the referenced file/directory. The symbolic link and the file it points to are almost indistinguishable, writing something to a symbolic link will also write it to the referenced file. Deleting a symbolic link will not delete the referenced file, deleting the file will not selete the link but the link will now point to nothing (broken link).
+
+Alright, that may have been a bit too much info so lets start experimenting.
