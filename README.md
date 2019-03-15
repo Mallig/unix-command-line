@@ -180,4 +180,129 @@ Hard links cannot reference a file outside its own file system nor can it refere
 
 Symbolic links don't have the limitations of hard links, they work by creating a file with a text pointer to the referenced file/directory. The symbolic link and the file it points to are almost indistinguishable, writing something to a symbolic link will also write it to the referenced file. Deleting a symbolic link will not delete the referenced file, deleting the file will not selete the link but the link will now point to nothing (broken link). Create a symbolic link with `ln -s $ITEM $LINK
 
-Alright, that may have been a bit too much info so lets start experimenting.
+Alright, that may have been a bit too much info so lets start experimenting. Take a look in the `playground` directory and run through the recap of what we've been over so far.
+
+## Command It and It will Be
+
+For a tutorial on the command line we sure have got far without actually explaining what a command is, let's clear that up. Commands can be on of four things:
+
+- **An executable program**, these can either be *compiled binaries* or written in *scripting languages*.
+- **A command built into the shell**, for example `cd`, is something called a *shell builtin*.
+- **A shell function** is a miniature shell script incorporated into the *environment*.
+- **An alias**, a command we have defined, uses other commands.
+
+The `type` command mentioned earlier can be used to determine the type of a command.
+
+```
+$ type type
+type is a shell builtin
+$ type ls
+ls is an alias for ls -G
+$ type cp
+cp is /bin/cp
+```
+
+The response for `type ls` may be different for you, I have an alias set up which you will elarn about in a moment.
+
+### You need help `man`
+
+You've been learning about the different commands and options they can be passed, but I don't expect you to come back here every time you want to remember how to use a command. Instead you can use the `man` command, try it out with whatever command you've been curious about and you'll be returned the manual on what the command can do. In bash `help`, rather than `man`, will return a short explanation in the command line.
+
+```
+$ man ls
+
+LS(1)                     BSD General Commands Manual                    LS(1)
+
+NAME
+     ls -- list directory contents
+
+SYNOPSIS
+     ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]
+
+DESCRIPTION
+     For each operand that names a file of a type other than directory, ls
+     displays its name as well as any requested, associated information.  For
+     each operand that names a file of type directory, ls displays the names
+     of files contained within that directory, as well as any requested, asso-
+     ciated information.
+...
+```
+
+The returned manual uses `less` so you can use the controls discussed earlier to navigate. 
+
+Manuals have several sections which can be accessed by being referenced in the `man` command.
+
+| Section | Contents |
+|---------|----------|
+| 1       | User Commands |
+| 2       | Programming interfaces for the kernel system calls |
+| 3       | Programming interfaces with the C library |
+| 4       | Special files e.g. nodes and drivers |
+| 5       | File formats |
+| 6       | Games and amusements |
+| 7       | Misc. |
+| 8       | Sysadmin commands |
+
+You can also search the manual for appropriate commands with the `apropos` command. Pass a string to the command and any manual entry matching the string will be returned (in the `less` program).
+
+```
+$ apropos bash
+
+bash(1)                  - GNU Bourne-Again SHell
+bashbug(1)               - report a bug in bash
+```
+
+The number after each command is the manual section.
+
+One more way of finding info on a command is with the `info` command. Info pages are different to man pages in that they are _hyperlinked_.
+
+## Make a Command
+
+Time to make a command of our own. using the `alias` command we can combine multiple commands into one and execute it by using the name we give it at creation. You can combine commands with either a semicolon (`cd /usr; ls`) or with the "and" operator (`cd /usr && ls`)
+
+```
+$ cd /usr; ls; cd -
+bin        lib        libexec    local      sbin       share      standalone
+~/Documents/Coding/Learning/unix-command-line
+```
+
+Be careful not to overwite an existing command, you can always delete the alias so nothing would be permanently broken. Check that the alias name you choose hasn't been taken already by using the `type` command.
+
+```
+$ type foo
+foo not found
+```
+
+foo is free to use as an alias, let's use that.
+
+```
+$ alias foo='cd /usr; ls; cd -'
+```
+
+Now when you type `foo` you will run that serie of commands.
+
+```
+$ foo
+bin        lib        libexec    local      sbin       share      standalone
+~/Documents/Coding/Learning/unix-command-line
+$ type foo
+foo is aliased to `cd /usr; ls; cd -'
+```
+
+Remove the alias with the `unalias` command.
+
+```
+$ unalias foo
+$ foo
+bash: foo: command not found
+```
+
+Remember a moment ago when I said don't overwrite existing commands? Well there are actually situations where you might want to do this. For example, if you always use a particular option with a command you could create an alias by the same name but have it use the option you are so fond of. If you want your `ls` command to output files with a colour scheme then apply the `-G` option.
+
+```bash
+$ alias ls='ls -G'
+$ type ls
+ls is aliased to `ls -G'
+```
+
+The alias' you set up this way will not persist accross shell sessions, try exiting the shell and starting it up again, `type ls` will no longer be an alias. Setting up your favourite alias each time you open the shell would be a waste of time so later we will learn how to make them persist.
