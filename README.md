@@ -56,7 +56,7 @@ Here are some of the options for the `ls` command
 | `-S`   | sort results by file size |
 | `-t`   | sort results by modification time |
 
-### What do your `-l`f Eyes See?
+### What do your `-lf` Eyes See?
 
 That's not even all the options, but let's leave it there for now. I'm sure you tried a few, the `-l` option will have spit out all sorts of stuff and it isn't obvious what it all means so let's try to explain each field. 
 
@@ -306,3 +306,91 @@ ls is aliased to `ls -G'
 ```
 
 The alias' you set up this way will not persist accross shell sessions, try exiting the shell and starting it up again, `type ls` will no longer be an alias. Setting up your favourite alias each time you open the shell would be a waste of time so later we will learn how to make them persist.
+
+## Tasty Redirects
+
+I/O stands for Input/Output, you can use it to redirect outputs to be the input of another command. Many commands, `ls` for example, output their results to a special file called _standard output_ (_stdout_) while their status message is output to _standard error_ (stderr_). Both stdout and stderr are displayed on the screen, not saved to a disk file. Finally there is _standard input_ (_stdin_) which comes from the keyboard. With I/O redirection we can change where outputs go to.
+
+We'll start by redirecting an output from stdout to a new text file. 
+
+```
+$ ls -l /usr/bin > ls-output.txt
+```
+
+Now you'll have a text file in your working directory containing the result you would expect from `ls -l /usr/bin`.
+
+What happens if the output is an error? Try this,
+
+```
+$ ls -l /bin/usr > ls-output.txt
+ls: /bin/usr: No such file or directory
+```
+
+It seems that rather than sending the output to the file `ls-output.txt` it has been displayed for us. Remeber that there are two forms of output, stdout and stderr, there aren't any prizes for guessing which one the error is sent to but what do you think was sent to stdout? 
+
+```
+$ ls -l ls-output.txt
+-rw-r--r--  1 me  staff  0 17 Mar 20:19 ls-output.txt
+```
+
+The file is now empty! This happens because destination files for redirected outputs are rewritten at the start, so if there is no output then we end up with an emty file. Use this to create an empty file whenever you want by omitting the command preceding the redirect, like this `> empty-file.txt`.
+
+Append a file rather than overwrite it by doubling up on the arrows.
+
+```
+$ ls -l /usr/bin >> ls-output.txt
+```
+
+What about that error earlier, you want to redirect it? The shell references stdin, stdout and stderr as file streams 0, 1 and 2 respectively. These can be referred to when redirecting outputs.
+
+```
+$ ls -l /bin/usr 2> ls-error.txt
+```
+
+Check out the `ls-error.txt` file, you'll find your error message happily waiting for you. What if you want it in the same file as the stdouput stream?
+
+```
+$ ls -l /bin/usr &> ls-output.txt
+```
+
+On older format for this was `ls -l /bin/usr > ls-output.txt 2>&1`.
+
+There is a deep dark hole where you can throw outputs you never want to see or hear about, a place called `/dev/null`, also known as a 'bit bucket', redirect outputs to there and it will be like they never existed. 
+
+Time to learn about redirecting stdin. The `cat` command can read and output files like so
+
+```
+$ cat ls-output.txt
+
+total 104304
+-rwxr-xr-x   4 root   wheel       925 18 Aug  2018 2to3-
+lrwxr-xr-x   1 root   wheel        74 14 Jan 14:06 2to3-2.7 -> ../../System/Library/Frameworks/Python.framework/Versions/2.7/bin/2to3-2.7
+-rwxr-xr-x   1 root   wheel     55072 30 Nov 05:55 AssetCacheLocatorUtil
+-rwxr-xr-x   1 root   wheel     53472 30 Nov 05:55 AssetCacheManagerUtil
+-rwxr-xr-x   1 root   wheel     48256 30 Nov 05:55 AssetCacheTetheratorUtil
+-rwxr-xr-x   1 root   wheel     18320  5 Feb 05:28 BuildStrings
+-rwxr-xr-x   1 root   wheel     18288  5 Feb 05:28 CpMac
+-rwxr-xr-x   1 root   wheel     18288  5 Feb 05:28 DeRez
+-rwxr-xr-x   1 root   wheel     18320  5 Feb 05:28 GetFileInfo
+-rwxr-xr-x   1 root   wheel     78000  5 Feb 05:27 IOAccelMemory
+...
+```
+
+`cat` can also be used to join files, for example files split and named like so `movie.mpeg.001, movie.mpeg.002, movie.mpeg.003 ...` can be joined.
+
+```
+$ cat movie.mpeg.0* > movie.mpeg`
+```
+
+Wildcards expand in sorted order so your movie should make snese when you watch it. We're getting to the input redirection now, what happens if you use the cat command without any arguments? Give it a go. Nothing happened? Well you aren't being prompted for another command so what are we supposed to do? You console is actually waiting for some input, try typing some text. When you hit `CTRL-D` to tell `cat` we're at the _end of file_ (EOF) for the standard input you will notice the text is echoed back. 
+
+Now we can see how the command below is a redirection of stdin from the keyboard to the file named _lazy_dog.txt_.
+
+```
+$ cat < lazy_dog.txt
+the quick brown fox jumps over the lazy dog.
+```
+
+This isn't a particularly exciting example of input redirection, let's hope something more fun turns up later.
+
+## Pipe up
