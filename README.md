@@ -394,3 +394,56 @@ the quick brown fox jumps over the lazy dog.
 This isn't a particularly exciting example of input redirection, let's hope something more fun turns up later.
 
 ## Pipe up
+
+Pipes (`|`) are a shell feature utilizing redirection of inputs and outputs. stdout of one command can be _piped_ into the stdin of another.
+
+```
+$ ls -l /usr/bin | less
+```
+
+Rather than saving the output to a file, this will output the stdout of the `ls` command to the stdin of less. Before, this would have taken two separate commands, `ls -l /usr/bin > ls-output.txt` followed by `less ls-output.txt`
+
+A series of commands connected by pipes is referred to as a _pipeline_, these can make up some complex commands. There are particular commands utlised in pipelines to create filters for data, a simple example being `sort`.
+
+```
+$ ls /bin /usr/bin | sort | less
+```
+
+The command above lists all the files from `/bin` and `/usr/bin` in sorted order, rather than being split into their parent files. You could remove any duplicates by adding another filter, `uniq`.
+
+```
+$ ls /bin /usr/bin | sort | uniq | less
+```
+
+Rather than piping everything into the `less` command, let's try getting the word count. The `wc` command outputs the number of lines, words and bytes in a file, using the `-l` flag we can limit it to only output the number of lines, which in this case will be the total number of results.
+
+```
+$ ls /bin /usr/bin | sort | uniq | wc -l
+1007
+```
+
+So we have 1007 items in `/bin` and `/usr/bin`, neat!
+
+There are a couple more things to be thrown at you before we move on from piping. `grep` is a program for finding patterns, let's say you want to find all the results of our last command which contain the text 'zip'. The usual format for a grep command is `grep pattern file`, with pipes we can ignore the file input and instead pipe it in.
+
+```
+$ ls /bin /usr/bin | sort |uniq | grep zip
+```
+
+Return only the top or bottom 10 lines with the commands `head` and `tail`, adjust the number of lines printed with the `-n` option. Again, these command can be used on their own or in pipes. `tail` has a very useful option, `-f`, which allows you to view the file in real time. This is handy for viewing process logs as they are being written.
+
+```
+$ ls /bin /usr/bin | sort |uniq | head -n 5
+```
+
+Have a look at a log file in your system, the command below will display life process info for the wifi on your computer, try turning your wifi off and on to see the logs updating. Use _CTRL-C_ to exit.
+
+```
+$ tail -f /var/log/wifi.log
+```
+
+One last command for your piping needs, you can view the intermidiate stages of the data flowing through the pipeline by using the `tee` command. `tee` copies the stdin to stdout and any files specified.
+
+```
+$ ls /usr/bin | tee ls.txt | grep zip
+```
